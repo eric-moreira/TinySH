@@ -19,13 +19,13 @@ This is the **first step** of an incremental project to build a functional shell
 - Interactive command reading loop
 - Built-in command: `exit` to terminate the shell
 - Simple argument parsing (space-split)
+- Background execution (`command &`)
+- Signal handling (`SIGINT`, `SIGTSTP`, etc.)
 
 ---
 
 ### 🚧 Upcoming Features (Next Phases)
 
-- Background execution (`command &`)
-- Signal handling (`SIGINT`, `SIGTSTP`, etc.)
 - Output redirection (`>`)
 - Pipelines (`ls | grep foo`)
 - Command history
