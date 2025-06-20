@@ -104,8 +104,8 @@ This project was created to reinforce key **Linux system programming** concepts,
 | 1 | Basic command execution | ✅ Done |
 | 2 | Background jobs (`&`) | ✅ Done |
 | 3 | Signal handling | ✅ Done |
-| 4 | Output redirection | 🚧 In progress |
-| 5 | Pipelines | ❌ |
+| 4 | Output redirection | ✅ Done |
+| 5 | Pipelines | 🚧 Work In Progress |
 
 ---
 

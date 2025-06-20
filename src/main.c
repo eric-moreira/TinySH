@@ -5,6 +5,12 @@
 #include <signal.h>
 #define MAX_INPUT 1024
 
+/*
+ * Main TinySH loop:
+ * Reads input from the user, processes commands, 
+ * and handles the "exit" command to terminate the shell.
+ */
+
 int main() {
     signal(SIGINT, SIG_IGN);
     char input[MAX_INPUT];

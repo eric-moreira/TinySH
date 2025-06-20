@@ -3,50 +3,25 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/wait.h>
+#include "../include/parser.h"
+#include "../include/redirection.h"
 
-#define PARSE_SUCCESS 0
-#define PARSE_EMPTY 1
-
-int parse_command(const char *input, char **input_copy, char **args, int *is_background){
-    char *token;
-    int i = 0;
-    
-    *input_copy = strdup(input);
-    if (*input_copy == NULL) {
-        perror("strdup failed");
-        return PARSE_EMPTY;
-    }
-
-    token = strtok(*input_copy, " ");
-
-    while (token != NULL && i < 127) {
-        args[i++] = token;
-        token = strtok(NULL, " ");
-    }
-    if (i > 0 && strcmp(args[i - 1], "&") == 0) {
-        *is_background = 1;
-        args[i - 1] = NULL;  // Remover o "&" da lista
-    }
-    args[i] = NULL;
-
-    if (args[0] == NULL) {
-        return PARSE_EMPTY;
-    }
-
-    if (strcmp(args[0], "&") == 0) {
-        return PARSE_EMPTY;
-    }
-    return PARSE_SUCCESS;
-}
+/*
+ * execute_command:
+ * Handles parsing, forking, signal management, output redirection, 
+ * and command execution for each user input.
+ */
 
 void execute_command(const char *input) {    
     int is_background = 0;
     char *args[128];
     int *bg = &is_background;
     char *input_copy;
+    redirection_type_t redirect = REDIRECT_NONE;
+    char *output_file = NULL;
 
 
-    if(parse_command(input, &input_copy, args, bg)) {
+    if(parse_command(input, &input_copy, args, bg, &redirect, &output_file)) {
         return;
     }
 
@@ -55,6 +30,10 @@ void execute_command(const char *input) {
     if (pid == 0) {
         // Processo filho
         signal(SIGINT, SIG_DFL);
+        if (setup_output_redirection(redirect, output_file) < 0) {
+            exit(EXIT_FAILURE);
+        }
+        
         execvp(args[0], args);
         fprintf(stderr, "tinysh: command not found: %s\n", args[0]);
         perror("exec failed");
