@@ -16,10 +16,11 @@ void execute_command(const char *input) {
     int is_background = 0;
     char *args[128];
     int *bg = &is_background;
-    char *input_copy;
+    char *input_copy = NULL;
     redirection_type_t redirect = REDIRECT_NONE;
     char *output_file = NULL;
 
+    input_copy = strdup(input);
 
     if(parse_command(input, &input_copy, args, bg, &redirect, &output_file)) {
         return;
@@ -47,6 +48,7 @@ void execute_command(const char *input) {
         }
     } else {
         perror("fork failed");
+
     }
     free(input_copy);
 }

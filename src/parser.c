@@ -18,10 +18,8 @@ int parse_command(const char *input, char **input_copy, char **args, int *is_bac
     char *token;
     int i = 0;
 
-    *input_copy = strdup(input);
     if (*input_copy == NULL) {
         perror("strdup failed");
-        free(input_copy);
         return PARSE_EMPTY;
     }
 
@@ -35,7 +33,6 @@ int parse_command(const char *input, char **input_copy, char **args, int *is_bac
                 *output_file = token;
             } else {
                 fprintf(stderr, "tinysh: syntax error near unexpected token `newline`\n");
-                free(input_copy);
                 return PARSE_EMPTY;
             }
         } else {
@@ -51,9 +48,7 @@ int parse_command(const char *input, char **input_copy, char **args, int *is_bac
     args[i] = NULL;
 
     if (args[0] == NULL || strcmp(args[0], "&") == 0) {
-        free(input_copy);
         return PARSE_EMPTY;
     }
-    free(input_copy);
     return PARSE_SUCCESS;
 }
