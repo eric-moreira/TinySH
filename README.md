@@ -1,114 +1,92 @@
-# 🐚 Tiny Shell (TinySH) – A Minimalist Shell in C
+# TinySH
 
-### 📌 Description
+TinySH é uma shell simples escrita em C, desenvolvida como exercício prático para explorar programação de sistemas em Linux.
 
-TinySH is a **minimalist shell written in C**, designed to practice **Linux system programming**, focusing on:
-
-- Process management (fork, exec, waitpid)
-- Command line parsing
-- Basic process execution control
-- Standard terminal I/O
-
-This is the **first step** of an incremental project to build a functional shell.
+O foco do projeto é entender de forma profunda como funcionam os processos, sinais, redirecionamento de entrada e saída, e execução de comandos em baixo nível, usando apenas chamadas de sistema POSIX.
 
 ---
 
-### ✅ Features Implemented (Phase 1)
+## Funcionalidades
 
-- Execution of external commands like `ls`, `pwd`, `echo`, etc.
-- Interactive command reading loop
-- Built-in command: `exit` to terminate the shell
-- Simple argument parsing (space-split)
-- Background execution (`command &`)
-- Signal handling (`SIGINT`, `SIGTSTP`, etc.)
+- Execução de comandos externos (como `ls`, `echo`, `pwd`)
+- Suporte a execução em segundo plano com `&`
+- Tratamento de sinais (`SIGINT`, `SIGTSTP`)
+- Redirecionamento de saída com `>` e `>>`
 
 ---
 
-### 🚧 Upcoming Features (Next Phases)
+## O que está por vir
 
-- Output redirection (`>`)
-- Pipelines (`ls | grep foo`)
-- Command history
+- Suporte a pipelines (`|`)
+- Histórico de comandos
+- Redirecionamento de entrada e stderr
 
 ---
 
-### 📂 Project Structure
+## Estrutura do Projeto
 
 ```
-tiny_shell/
+tinysh/
 ├── src/
 │   ├── main.c
-│   └── executor.c
+│   ├── executor.c
+│   ├── parser.c
+│   └── redirection.c
 ├── include/
-│   └── executor.h
+│   ├── executor.h
+│   ├── parser.h
+│   └── redirection.h
 ├── Makefile
 └── README.md
 ```
+
 ---
 
-### 🛠️ How to Build
+## Compilação e uso
 
-Requirements:
+Para compilar:
 
-- GCC
-- Linux or POSIX-compliant environment
-
-Commands:
+```bash
+make
 ```
-(make)
+
+Para rodar:
+
+```bash
+./tinysh
 ```
-This will generate the `tinysh` executable.
 
----
+Exemplos de uso:
 
-### ▶️ How to Use
-
-Run the shell:
-
+```bash
+tinysh> echo Hello
+tinysh> ls > out.txt
+tinysh> sleep 2 &
+tinysh> exit
 ```
-(./tinysh)
 
-Usage examples:
+---
 
-(tinysh> ls)
-(tinysh> echo Hello World)
-(tinysh> pwd)
-(tinysh> exit)
+## Desenvolvimento
+
+O código é modularizado e comentado em inglês.  
+Parsing é feito com `strtok`, com limite de até 127 argumentos.  
+A função `parser` usa `strdup` internamente e libera a memória automaticamente.
+
+Testes de vazamento de memória podem ser feitos com:
+
+```bash
+valgrind ./tinysh
 ```
----
-
-### 💡 System Programming Concepts Used
-
-- **Fork/Exec:** Process creation
-- **Waitpid:** Process synchronization and control
-- **Manual parsing:** Tokenizing input strings using `strtok`
-- **File descriptors (indirectly via execvp)**
 
 ---
 
-### 📚 Technical Learnings
+## Roadmap
 
-This project was created to reinforce key **Linux system programming** concepts, including:
-
-- Creating and managing processes in C
-- Interacting with the terminal
-- Handling user input and arguments
-- Basic execution flow between parent and child processes
-
----
-
-### 🧭 Future Roadmap
-
-| Phase | Feature | Status |
-|---|---|---|
-| 1 | Basic command execution | ✅ Done |
-| 2 | Background jobs (`&`) | ✅ Done |
-| 3 | Signal handling | ✅ Done |
-| 4 | Output redirection | ✅ Done |
-| 5 | Pipelines | 🚧 Work In Progress |
-
----
-
-### ✅ License
-
-MIT License.
+| Fase | Funcionalidade         | Status         |
+|------|------------------------|----------------|
+| 1    | Execução de comandos   | Feito          |
+| 2    | Jobs em background     | Feito          |
+| 3    | Tratamento de sinais   | Feito          |
+| 4    | Redirecionamento de saída | Feito      |
+| 5    | Pipelines              | Em andamento   |
