@@ -17,9 +17,7 @@ The project's focus is to deeply understand how processes, signals, input/output
 
 ## Upcoming Features
 
-- Support for pipelines (`|`)
-- Command history
-- Input and stderr redirection
+- All done for now.
 
 ---
 
