@@ -20,10 +20,9 @@ int main() {
         fflush(stdout);
 
         if (fgets(input, MAX_INPUT, stdin) == NULL) {
-            break;  // EOF
+            break;
         }
 
-        // Remove newline
         input[strcspn(input, "\n")] = '\0';
 
         if (strcmp(input, "exit") == 0) {

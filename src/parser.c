@@ -1,3 +1,4 @@
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -5,18 +6,15 @@
 
 /*
  * parse_command:
- * Tokenizes the input command line, populates the args array,
- * detects output redirection operators (">", ">>"), 
- * and checks for background execution symbol (&).
- *
+ * Tokenizes the input command line, populates the pipeline array,
+ * detects output redirection operators (">", ">>") and checks for background execution symbol (&).
  * This function performs destructive parsing using strtok().
  * Memory allocated internally is freed before returning.
  */
 
-
-int parse_command(const char *input, char **input_copy, char **args, int *is_background, redirection_type_t *redir_type, char **output_file) {
+int parse_command(const char *input, char **input_copy, pipeline_t *pipeline, int *is_background, redirection_type_t *redir_type, char **output_file) {
     char *token;
-    int i = 0;
+    size_t cmd_idx = 0, arg_idx = 0;
 
     if (*input_copy == NULL) {
         perror("strdup failed");
@@ -24,8 +22,9 @@ int parse_command(const char *input, char **input_copy, char **args, int *is_bac
     }
 
     token = strtok(*input_copy, " ");
+    pipeline->num_commands = 0;
 
-    while (token != NULL && i < 127) {
+    while (token != NULL && cmd_idx < MAX_PIPE_CMDS) {
         if (strcmp(token, ">") == 0 || strcmp(token, ">>") == 0) {
             *redir_type = (strcmp(token, ">>") == 0) ? REDIRECT_APPEND : REDIRECT_TRUNCATE;
             token = strtok(NULL, " ");
@@ -35,19 +34,24 @@ int parse_command(const char *input, char **input_copy, char **args, int *is_bac
                 fprintf(stderr, "tinysh: syntax error near unexpected token `newline`\n");
                 return PARSE_EMPTY;
             }
+        } else if (strcmp(token, "|") == 0) {
+            pipeline->commands[cmd_idx].args[arg_idx] = NULL;
+            cmd_idx++;
+            arg_idx = 0;
         } else {
-            args[i++] = token;
+            pipeline->commands[cmd_idx].args[arg_idx++] = token;
         }
         token = strtok(NULL, " ");
     }
+    pipeline->commands[cmd_idx].args[arg_idx] = NULL;
+    pipeline->num_commands = cmd_idx + 1;
 
-    if (i > 0 && strcmp(args[i - 1], "&") == 0) {
+    if (arg_idx > 0 && strcmp(pipeline->commands[cmd_idx].args[arg_idx - 1], "&") == 0) {
         *is_background = 1;
-        args[i - 1] = NULL;  // Remove "&" da lista de args
+        pipeline->commands[cmd_idx].args[arg_idx - 1] = NULL;
     }
-    args[i] = NULL;
 
-    if (args[0] == NULL || strcmp(args[0], "&") == 0) {
+    if (pipeline->commands[0].args[0] == NULL) {
         return PARSE_EMPTY;
     }
     return PARSE_SUCCESS;

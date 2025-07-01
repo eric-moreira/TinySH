@@ -18,7 +18,7 @@ int setup_output_redirection(redirection_type_t redirect_type, const char *outpu
     } else if (redirect_type == REDIRECT_APPEND) {
         fd = open(output_file, O_WRONLY | O_CREAT | O_APPEND, 0644);
     } else {
-        return 0;  // Nenhum redirecionamento
+        return 0;
     }
     if (fd < 0) {
         perror("open failed for redirection");

@@ -4,6 +4,18 @@
 #define PARSE_SUCCESS 0
 #define PARSE_EMPTY 1
 
+#define MAX_PIPE_CMDS 10
+#define MAX_ARGS 128
+
+typedef struct {
+    char *args[MAX_ARGS];
+} command_t;
+
+typedef struct {
+    command_t commands[MAX_PIPE_CMDS];
+    int num_commands;
+} pipeline_t;
+
 /*
  * redirection_type_t:
  * Enumeration for output redirection types.
@@ -36,7 +48,7 @@ typedef enum {
  *  - PARSE_EMPTY (1) if the input was empty or invalid.
  */
 
-int parse_command(const char *input, char **input_copy, char **args, int *is_background, redirection_type_t *redir_type, char **output_file);
+int parse_command(const char *input, char **input_copy, pipeline_t *pipeline, int *is_background, redirection_type_t *redir_type, char **output_file);
 
 #endif
 
