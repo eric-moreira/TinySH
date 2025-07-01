@@ -1,29 +1,29 @@
 # TinySH
 
-TinySH é uma shell simples escrita em C, desenvolvida como exercício prático para explorar programação de sistemas em Linux.
+TinySH is a simple shell written in C, developed as a practical exercise to explore system programming on Linux.
 
-O foco do projeto é entender de forma profunda como funcionam os processos, sinais, redirecionamento de entrada e saída, e execução de comandos em baixo nível, usando apenas chamadas de sistema POSIX.
-
----
-
-## Funcionalidades
-
-- Execução de comandos externos (como `ls`, `echo`, `pwd`)
-- Suporte a execução em segundo plano com `&`
-- Tratamento de sinais (`SIGINT`, `SIGTSTP`)
-- Redirecionamento de saída com `>` e `>>`
+The project's focus is to deeply understand how processes, signals, input/output redirection, and command execution work at a low level, using only POSIX system calls.
 
 ---
 
-## O que está por vir
+## Features
 
-- Suporte a pipelines (`|`)
-- Histórico de comandos
-- Redirecionamento de entrada e stderr
+- Execution of external commands (such as `ls`, `echo`, `pwd`)
+- Support for background execution with `&`
+- Signal handling (`SIGINT`, `SIGTSTP`)
+- Output redirection with `>` and `>>`
 
 ---
 
-## Estrutura do Projeto
+## Upcoming Features
+
+- Support for pipelines (`|`)
+- Command history
+- Input and stderr redirection
+
+---
+
+## Project Structure
 
 ```
 tinysh/
@@ -42,21 +42,21 @@ tinysh/
 
 ---
 
-## Compilação e uso
+## Compilation and Usage
 
-Para compilar:
+To compile:
 
 ```bash
 make
 ```
 
-Para rodar:
+To run:
 
 ```bash
 ./tinysh
 ```
 
-Exemplos de uso:
+Usage examples:
 
 ```bash
 tinysh> echo Hello
@@ -67,26 +67,22 @@ tinysh> exit
 
 ---
 
-## Desenvolvimento
+## Development
 
-O código é modularizado e comentado em inglês.  
-Parsing é feito com `strtok`, com limite de até 127 argumentos.  
-A função `parser` usa `strdup` internamente e libera a memória automaticamente.
+The code is modularized and commented in English.  
+Parsing is done with `strtok`, with a limit of up to 127 arguments.  
+The `parser` function uses `strdup` internally and frees memory automatically.
 
-Testes de vazamento de memória podem ser feitos com:
 
-```bash
-valgrind ./tinysh
-```
 
 ---
 
 ## Roadmap
 
-| Fase | Funcionalidade         | Status         |
-|------|------------------------|----------------|
-| 1    | Execução de comandos   | Feito          |
-| 2    | Jobs em background     | Feito          |
-| 3    | Tratamento de sinais   | Feito          |
-| 4    | Redirecionamento de saída | Feito      |
-| 5    | Pipelines              | Em andamento   |
+| Phase | Feature                  | Status        |
+|-------|--------------------------|---------------|
+| 1     | Command execution        | Done          |
+| 2     | Background jobs          | Done          |
+| 3     | Signal handling          | Done          |
+| 4     | Output redirection       | Done          |
+| 5     | Pipelines                | Done          |

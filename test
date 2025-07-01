@@ -1,0 +1,13 @@
+total 112
+drwxr-xr-x  12 ericmoreira  staff    384 30 Jun 23:06 .
+drwxrwxrwx  33 ericmoreira  staff   1056 30 Jun 14:50 ..
+-rw-r--r--@  1 ericmoreira  staff   6148 30 Jun 15:01 .DS_Store
+drwxr-xr-x  15 ericmoreira  staff    480 30 Jun 23:06 .git
+-rw-r--r--   1 ericmoreira  staff     19 30 Jun 22:40 .gitignore
+drwxr-xr-x   5 ericmoreira  staff    160 29 Jun 12:21 include
+-rw-r--r--   1 ericmoreira  staff    208 29 Jun 12:21 Makefile
+-rw-r--r--   1 ericmoreira  staff   1890 30 Jun 09:19 README.md
+drwxr-xr-x   6 ericmoreira  staff    192 29 Jun 12:21 src
+-rw-r--r--   1 ericmoreira  staff      0 30 Jun 23:06 test
+-rwxr-xr-x   1 ericmoreira  staff  35688 30 Jun 23:06 tinysh
+drwxr-xr-x   3 ericmoreira  staff     96 30 Jun 23:04 tinysh.dSYM
